@@ -1,0 +1,19 @@
+﻿@model TeamPlayer
+@{
+    ViewData["Title"] = "AddTeamPlayer";
+}
+
+
+<form asp-action="ConfirmAddTeamPlayer">
+    <input type="hidden" asp-for="TeamId" value="@ViewBag.TeamId" />
+    <div class="form-group">
+        <label asp-for="PlayerId" class="control-label"></label>
+        <select asp-for="PlayerId" class="form-control" asp-items="ViewBag.Players"></select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add Player" class="btn btn-success mt-3 mb-3" /> <a asp-action="Edit" class="btn btn-warning">Cancel</a>
+    </div>
+</form>
+
+
+

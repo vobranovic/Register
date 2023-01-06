@@ -1,0 +1,41 @@
+﻿@model List<TeamPlayer>
+@{
+    ViewData["Title"] = "TeamDetails";
+}
+
+<h4>Team Players</h4>
+<hr />
+
+@if (Model == null || Model.Count == 0)
+{
+    <p>There are no players added for this team!</p>
+}
+else
+{
+   <ol class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">@item.PlayerName - @item.PlayerBirthday.Year - @item.PlayerRegistrationId</li>
+    }
+</ol>     
+}
+
+<hr />
+
+<h4>Team Personnel</h4>
+
+@if (ViewBag.TeamPersonnel == null || ViewBag.TeamPersonnel.Count == 0)
+{
+    <p>There is no personnel added for this team!</p>
+}
+else
+{
+   <ol class="list-group">
+    @foreach (var item in ViewBag.TeamPersonnel)
+    {
+            <li class="list-group-item">@item.PersonnelName - @item.PersonnelBirthday.Year - @item.PersonnelRegistrationId - <a asp-action="RemoveTeamPersonnel" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Remove</a></li>
+    }
+</ol>     
+}
+<a asp-action="Index" class="btn btn-warning mt-3">Back</a>
+

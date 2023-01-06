@@ -1,0 +1,34 @@
+﻿@model List<TeamPlayer>
+@{
+    ViewData["Title"] = "Edit Team Players";    
+}
+
+<h4>Team Players</h4>
+<hr />
+
+<a asp-action="AddTeamPlayer" asp-route-id="@ViewBag.TeamId" class="btn btn-success mb-3">Add New Player</a>
+
+<ol class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">@item.PlayerName - @item.PlayerBirthday.Year - @item.PlayerRegistrationId - <a asp-action="RemoveTeamPlayer" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Remove</a></li>
+    }
+</ol>
+
+<hr />
+
+<h4>Team Personnel</h4>
+
+<a asp-action="AddTeamPersonnel" asp-route-id="@ViewBag.TeamId" class="btn btn-info mb-3">Add New Personnel</a>
+
+<ol class="list-group">
+    @foreach (var item in ViewBag.TeamPersonnel)
+    {
+        <li class="list-group-item">@item.PersonnelName - @item.PersonnelBirthday.Year - @item.PersonnelRegistrationId - <a asp-action="RemoveTeamPersonnel" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Remove</a></li>
+    }
+</ol>
+
+<a asp-action="Index" asp-route-id="@ViewBag.ClubId" class="btn btn-warning mt-3">Back</a>
+
+
+

@@ -1,0 +1,62 @@
+﻿@model List<Team>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h3>Search for Clubs</h3>
+
+@if (Model == null)
+{
+
+<div class="row d-flex justify-content-center">
+    <div class="col-md-5 text-center">
+        <form asp-action="Index">
+            <div class="form-group">
+                <input type="text" class="form-control" name="searchText" placeholder="Enter club name">
+            </div>
+            <div class="form-group">
+                <label for="season">Select Season</label>
+                <select name="season" class="form-control" asp-items="ViewBag.Seasons"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-lg mt-3" value="Search" />
+            </div>
+        </form>
+    </div>
+</div>
+
+}
+
+else if (Model.Count == 0)
+{
+    <p class="text text-center">We did not find any clubs with the given filter</p>
+    <a asp-action="Index" class="btn btn-secondary">Back To Search</a>
+}
+
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Club</th>
+                <th>Category</th>
+                <th>Season</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var team in Model)
+            {
+                <tr>
+                    <td>@team.ClubName</td>
+                    <td>@team.Category</td>
+                    <td>@team.Season</td>
+                    <td><a asp-action="TeamDetails" class="btn btn-primary" asp-route-id="@team.Id">View Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="Index" class="btn btn-secondary">Back To Search</a>
+}
+
