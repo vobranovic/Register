@@ -29,5 +29,8 @@ namespace Register.Models
         [ForeignKey("PersonnelId")]
         public List<TeamPersonnel> TeamPersonnel { get; set; } = new List<TeamPersonnel>();
 
+        [NotMapped]
+        public int NumberOfTeams { get; set; }
+
     }
 }

@@ -1,0 +1,31 @@
+﻿@model Player
+@{
+    ViewData["Title"] = "PlayerDetails";
+}
+
+<h1>Player Details</h1>
+
+<p>Player name: @Model.FirstName @Model.LastName</p>
+Player is added to the following teams:
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Club</th>
+            <th>Category</th>
+            <th>Season</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TeamPlayer)
+        {
+            <tr>
+                <td>@item.ClubName</td>
+                <td>@item.TeamCategory</td>
+                <td>@item.TeamSeason</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Back To Search</a>

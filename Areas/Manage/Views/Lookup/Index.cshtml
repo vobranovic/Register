@@ -1,0 +1,66 @@
+﻿@model List<Player>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Database Lookup</h1>
+
+@if (Model == null)
+{
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-5 text-center">
+            <form asp-action="Index">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="searchText" placeholder="What to search for?">
+                </div>
+                <div class="form-group">
+                    <label for="searchFor">Search by</label>
+                    <select class="form-control" name="searchFor">
+                        <option value="Player">Player</option>
+                        <option value="Personnel">Personnel</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary btn-lg mt-3" value="Search" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+else if (Model.Count == 0)
+{
+        <p class="text text-center">We did not find any players with the given filter</p>
+        <a asp-action="Index" class="btn btn-secondary">Back To Search</a>
+}
+
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>                
+                <th>Registration ID</th>                
+                <th>Birthday</th>                
+                <th>Teams</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in Model)
+            {
+                <tr>
+                    <td>@player.FirstName @player.LastName</td>
+                    <td>@player.RegistrationId</td>
+                    <td>@player.Birthday.Year</td>
+                    <td>@player.NumberOfTeams</td>
+                    <td><a asp-action="PlayerDetails" class="btn btn-primary" asp-route-Id="@player.Id">Details</a>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="Index" class="btn btn-secondary">Back To Search</a>
+}
+
+

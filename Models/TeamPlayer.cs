@@ -14,5 +14,13 @@ namespace Register.Models
         public string PlayerRegistrationId { get; set; }
         [NotMapped]
         public DateTime PlayerBirthday { get; set; }
+
+        [NotMapped]
+        public Category TeamCategory { get; set; }
+        [NotMapped]
+        public string? TeamSeason { get; set; }
+        [NotMapped]
+        public string? ClubName { get; set; }
+
     }
 }

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Register.Controllers;
 using Register.Data;
 using Register.Models;
+using System.Diagnostics;
 
 namespace Register.Areas.Manage.Controllers
 {
@@ -14,11 +16,15 @@ namespace Register.Areas.Manage.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<ClubController> _logger;
+        private readonly ILogger _factoryLogger;
 
-        public ClubController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+        public ClubController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, ILogger<ClubController> logger, ILoggerFactory loggerFactory)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _logger = logger;
+            _factoryLogger = loggerFactory.CreateLogger("DataAccessLayer");
         }
 
         public async Task<IActionResult> Club()
@@ -88,6 +94,7 @@ namespace Register.Areas.Manage.Controllers
                 var club = _dbContext.Club.FirstOrDefault(c => c.Id == id);
                 return View(club);
             }
+            _logger.LogWarning(String.Format("User {0} attempted to browse to an unowned club.", _userManager.GetUserId(User)));
             return RedirectToAction(nameof(Club));
         }
 
@@ -96,8 +103,16 @@ namespace Register.Areas.Manage.Controllers
         {
             if (ModelState.IsValid)
             {
+                var timer = new Stopwatch();
+
+                timer.Start();
                 _dbContext.Club.Update(club);
                 _dbContext.SaveChanges();
+                timer.Stop();
+
+                _logger.LogInformation(String.Format("Club {0} was edited successfully. Edit was done by user {1} - {2}. Operation took {3} ms to complete", club.Name, _userManager.GetUserId(User), _userManager.GetUserName(User), timer.ElapsedMilliseconds));
+
+                _factoryLogger.LogInformation(String.Format("This is logged by Factory logger. Club {0} was edited successfully. Edit was done by user {1} - {2}. Operation took {3} ticks to complete", club.Name, _userManager.GetUserId(User), _userManager.GetUserName(User), timer.ElapsedTicks));
 
                 return RedirectToAction(nameof(Club));
             }

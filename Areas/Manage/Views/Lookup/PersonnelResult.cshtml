@@ -1,0 +1,46 @@
+﻿@model List<Personnel>
+@{
+    ViewData["Title"] = "PersonnelResult";
+}
+
+
+@if (Model == null)
+{
+    <p>This page is used to display filtered personnel, however, we did not find any. Did you reach this page in error?</p>
+}
+
+else if (Model.Count == 0)
+{
+    <p class="text text-center">We did not find any personnel with the given filter. Please go back and change the desired filter.</p>
+    <a asp-action="Index" class="btn btn-secondary">Back To Search</a>
+}
+
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Registration ID</th>
+                <th>Birthday</th>
+                <th>Teams</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var personnel in Model)
+            {
+                <tr>
+                    <td>@personnel.FirstName @personnel.LastName</td>
+                    <td>@personnel.RegistrationId</td>
+                    <td>@personnel.Birthday.Year</td>
+                    <td>@personnel.NumberOfTeams</td>
+                    <td><a asp-action="PersonnelDetails" class="btn btn-primary" asp-route-Id="@personnel.Id">Details</a>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="Index" class="btn btn-secondary">Back To Search</a>
+}
+
